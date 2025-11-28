@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h3>Course List (Drag to Reorder)</h3>
+  <ul id="list">
+    <li draggable="true">Course 1</li>
+    <li draggable="true">Course 2</li>
+    <li draggable="true">Course 3</li>
+    <li draggable="true">Course 4</li>
+    <li draggable="true">Course 5</li>
+  </ul>
+  <button onclick="showOrder()">Show Order</button>
+  <p id="output"></p>
+
+  <script>
+    let dragged;
+    document.querySelectorAll('#list li').forEach(item => {
+      item.ondragstart = () => dragged = item;
+      item.ondragover = e => e.preventDefault();
+      item.ondrop = () => {
+        if (dragged !== item) {
+          item.parentNode.insertBefore(dragged, item.nextSibling);
+        }
+      };
+    });
+
+    function showOrder() {
+      const items = document.querySelectorAll('#list li');
+      const order = Array.from(items).map((li, i) => (i + 1) + ". " + li.textContent).join('<br>');
+      document.getElementById('output').innerHTML = "Updated Order:<br>" + order;
+    }
+  </script>
+</body>
+</html>
